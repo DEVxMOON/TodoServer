@@ -1,29 +1,55 @@
 package com.teamsparta.todoserver.domain.todo.service
 
+import com.teamsparta.todoserver.domain.exception.ModelNotFoundException
 import com.teamsparta.todoserver.domain.todo.dto.CreateTodoRequest
 import com.teamsparta.todoserver.domain.todo.dto.TodoResponse
 import com.teamsparta.todoserver.domain.todo.dto.UpdateTodoRequest
+import com.teamsparta.todoserver.domain.todo.model.Todo
+import com.teamsparta.todoserver.domain.todo.model.toResponse
+import com.teamsparta.todoserver.domain.todo.repository.TodoRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class TodoServiceImpl :TodoService{
+class TodoServiceImpl(private val todoRepository: TodoRepository) :TodoService{
     override fun getAllTodos(): List<TodoResponse> {
-        TODO("Not yet implemented")
+        return todoRepository.findAll().map { it.toResponse() }
     }
 
     override fun getTodoById(todoId: Long): TodoResponse {
-        TODO("Not yet implemented")
+        val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
+        return todo.toResponse()
     }
 
+    @Transactional
     override fun createTodo(createTodoRequest: CreateTodoRequest): TodoResponse {
-        TODO("Not yet implemented")
+        return todoRepository.save(
+            Todo(
+                title = createTodoRequest.title,
+                body = createTodoRequest.body,
+                createdAt = createTodoRequest.date,
+                author = createTodoRequest.author
+            )
+        ).toResponse()
     }
 
+    @Transactional
     override fun updateTodo(todoId: Long, updateTodoRequest: UpdateTodoRequest): TodoResponse {
-        TODO("Not yet implemented")
+        val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
+        val (title, author, body, createdAt) = updateTodoRequest
+
+        todo.title = title
+        todo.author = author
+        todo.body = body
+        todo.createdAt = createdAt
+
+        return todoRepository.save(todo).toResponse()
     }
 
+    @Transactional
     override fun deleteTodo(todoId: Long) {
-        TODO("Not yet implemented")
+        val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
+        todoRepository.delete(todo)
     }
 }
