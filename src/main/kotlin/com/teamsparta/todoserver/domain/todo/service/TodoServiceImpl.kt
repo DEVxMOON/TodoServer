@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class TodoServiceImpl(private val todoRepository: TodoRepository) :TodoService{
     override fun getAllTodos(): List<TodoResponse> {
-        return todoRepository.findAll().map { it.toResponse() }
+        return todoRepository.findAll().sortedByDescending { it.createdAt }.map { it.toResponse() }
     }
 
     override fun getTodoById(todoId: Long): TodoResponse {
