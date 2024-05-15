@@ -3,6 +3,7 @@ package com.teamsparta.todoserver.domain.todo.controller
 import com.teamsparta.todoserver.domain.todo.dto.CreateTodoRequest
 import com.teamsparta.todoserver.domain.todo.dto.TodoResponse
 import com.teamsparta.todoserver.domain.todo.dto.UpdateTodoRequest
+import com.teamsparta.todoserver.domain.todo.dto.UpdateTodoDoneRequest
 import com.teamsparta.todoserver.domain.todo.service.TodoService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -49,10 +50,10 @@ class TodoController (private val todoService: TodoService) {
     }
 
     @PatchMapping("/{todoId}")
-    fun updateTodoDone(@PathVariable todoId: Long,@RequestBody updateTodoRequest: UpdateTodoRequest):ResponseEntity<TodoResponse> {
+    fun updateTodoDone(@PathVariable todoId: Long,@RequestBody updateTodoDoneRequest: UpdateTodoDoneRequest):ResponseEntity<TodoResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .build()
+            .body(todoService.updateTodoDone(todoId,updateTodoDoneRequest))
     }
 
 }
