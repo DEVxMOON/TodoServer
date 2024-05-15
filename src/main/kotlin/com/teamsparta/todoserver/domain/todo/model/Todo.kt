@@ -19,6 +19,9 @@ class Todo(
     @Column(name = "created_at", nullable = false)
     var createdAt: LocalDate,
 
+    @Column(name="done", nullable = false)
+    var done: Boolean=false,
+
     ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
