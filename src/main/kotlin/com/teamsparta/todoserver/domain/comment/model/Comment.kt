@@ -16,6 +16,10 @@ class Comment(
     @Column(name ="body")
     var body: String,
 
+    @ManyToOne
+    @JoinColumn(name = "todo_id", nullable = false)
+    var todo: Todo,
+
     ){
     @Id
     @Column(name = "id", nullable = false)
