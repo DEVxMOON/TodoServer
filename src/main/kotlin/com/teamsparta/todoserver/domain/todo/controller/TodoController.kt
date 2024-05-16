@@ -15,10 +15,18 @@ import org.springframework.web.bind.annotation.*
 class TodoController (private val todoService: TodoService) {
 
     @GetMapping
-    fun getTodoList(): ResponseEntity<List<TodoResponse>> {
+    fun getTodoList(@RequestParam (defaultValue = "desc") order:String): ResponseEntity<List<TodoResponse>> {
+        val todos = todoService.getAllTodos()
+
+        val sortedTodos = when(order) {
+            "asc"-> todos.sortedBy { it.date }
+            "desc"->todos.sortedByDescending { it.date }
+            else->throw IllegalArgumentException("Invalid order parameter: $order")
+        }
+
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.getAllTodos())
+            .body(sortedTodos)
     }
 
     @GetMapping("/{todoId}")
