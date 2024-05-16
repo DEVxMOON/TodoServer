@@ -12,16 +12,20 @@ import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/todos")
 @RestController
-class TodoController (private val todoService: TodoService) {
+class TodoController(private val todoService: TodoService) {
 
     @GetMapping
-    fun getTodoList(@RequestParam (defaultValue = "desc") order:String): ResponseEntity<List<TodoResponse>> {
-        val todos = todoService.getAllTodos()
+    fun getTodoList(
+        @RequestParam(defaultValue = "desc") order: String,
+        @RequestParam(defaultValue = "") author: String
+    ): ResponseEntity<List<TodoResponse>> {
+        val todos = if (author.isNotBlank()) todoService.getAllTodos()
+            .filter { it.author == author } else todoService.getAllTodos()
 
-        val sortedTodos = when(order) {
-            "asc"-> todos.sortedBy { it.date }
-            "desc"->todos.sortedByDescending { it.date }
-            else->throw IllegalArgumentException("Invalid order parameter: $order")
+        val sortedTodos = when (order) {
+            "asc" -> todos.sortedBy { it.date }
+            "desc" -> todos.sortedByDescending { it.date }
+            else -> throw IllegalArgumentException("Invalid order parameter: $order")
         }
 
         return ResponseEntity
@@ -30,38 +34,44 @@ class TodoController (private val todoService: TodoService) {
     }
 
     @GetMapping("/{todoId}")
-    fun getTodoById(@PathVariable todoId: Long) : ResponseEntity<TodoResponse> {
+    fun getTodoById(@PathVariable todoId: Long): ResponseEntity<TodoResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(todoService.getTodoById(todoId))
     }
 
     @PostMapping
-    fun createTodo(@RequestBody createTodoRequest: CreateTodoRequest):ResponseEntity<TodoResponse> {
+    fun createTodo(@RequestBody createTodoRequest: CreateTodoRequest): ResponseEntity<TodoResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(todoService.createTodo(createTodoRequest))
     }
 
     @PutMapping("/{todoId}")
-    fun updateTodo(@PathVariable todoId: Long, @RequestBody updateTodoRequest: UpdateTodoRequest): ResponseEntity<TodoResponse> {
+    fun updateTodo(
+        @PathVariable todoId: Long,
+        @RequestBody updateTodoRequest: UpdateTodoRequest
+    ): ResponseEntity<TodoResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(todoService.updateTodo(todoId, updateTodoRequest))
     }
 
     @DeleteMapping("/{todoId}")
-    fun deleteTodo(@PathVariable todoId: Long) : ResponseEntity<Unit> {
+    fun deleteTodo(@PathVariable todoId: Long): ResponseEntity<Unit> {
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
             .body(todoService.deleteTodo(todoId))
     }
 
     @PatchMapping("/{todoId}")
-    fun updateTodoDone(@PathVariable todoId: Long,@RequestBody updateTodoDoneRequest: UpdateTodoDoneRequest):ResponseEntity<TodoResponse> {
+    fun updateTodoDone(
+        @PathVariable todoId: Long,
+        @RequestBody updateTodoDoneRequest: UpdateTodoDoneRequest
+    ): ResponseEntity<TodoResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.updateTodoDone(todoId,updateTodoDoneRequest))
+            .body(todoService.updateTodoDone(todoId, updateTodoDoneRequest))
     }
 
 }
