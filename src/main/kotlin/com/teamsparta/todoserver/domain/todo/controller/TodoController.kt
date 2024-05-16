@@ -28,23 +28,22 @@ class TodoController(private val todoService: TodoService) {
             else -> throw IllegalArgumentException("Invalid order parameter: $order")
         }
 
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(sortedTodos)
+        return ResponseEntity.status(HttpStatus.OK).body(sortedTodos)
     }
 
     @GetMapping("/{todoId}")
     fun getTodoById(@PathVariable todoId: Long): ResponseEntity<TodoResponse> {
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(todoService.getTodoById(todoId))
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.getTodoById(todoId))
     }
 
     @PostMapping
     fun createTodo(@RequestBody createTodoRequest: CreateTodoRequest): ResponseEntity<TodoResponse> {
-        return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(todoService.createTodo(createTodoRequest))
+        try {
+            validateTodoLength(createTodoRequest.title, createTodoRequest.body)
+        } catch (e: IllegalArgumentException) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(createTodoRequest))
     }
 
     @PutMapping("/{todoId}")
@@ -52,16 +51,18 @@ class TodoController(private val todoService: TodoService) {
         @PathVariable todoId: Long,
         @RequestBody updateTodoRequest: UpdateTodoRequest
     ): ResponseEntity<TodoResponse> {
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(todoService.updateTodo(todoId, updateTodoRequest))
+
+        try {
+            validateTodoLength(updateTodoRequest.title, updateTodoRequest.body)
+        } catch (e: IllegalArgumentException) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+        }
+        return ResponseEntity .status(HttpStatus.OK).body(todoService.updateTodo(todoId, updateTodoRequest))
     }
 
     @DeleteMapping("/{todoId}")
     fun deleteTodo(@PathVariable todoId: Long): ResponseEntity<Unit> {
-        return ResponseEntity
-            .status(HttpStatus.NO_CONTENT)
-            .body(todoService.deleteTodo(todoId))
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)  .body(todoService.deleteTodo(todoId))
     }
 
     @PatchMapping("/{todoId}")
@@ -69,9 +70,22 @@ class TodoController(private val todoService: TodoService) {
         @PathVariable todoId: Long,
         @RequestBody updateTodoDoneRequest: UpdateTodoDoneRequest
     ): ResponseEntity<TodoResponse> {
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(todoService.updateTodoDone(todoId, updateTodoDoneRequest))
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.updateTodoDone(todoId, updateTodoDoneRequest))
+    }
+
+    private fun validateTodoLength(title: String, body: String) {
+        val minTitle = 1
+        val maxTitle = 200
+        val minBody = 1
+        val maxBody = 1000
+
+        if (title.length !in minTitle..maxTitle) {
+            throw IllegalArgumentException("The title must be between $minTitle and $maxTitle characters")
+        }
+
+        if (body.length !in minBody..maxBody) {
+            throw IllegalArgumentException("The body must be between $minBody and $maxBody characters")
+        }
     }
 
 }
