@@ -4,7 +4,7 @@ import com.teamsparta.todoserver.domain.comment.model.Comment
 import com.teamsparta.todoserver.domain.comment.model.toResponse
 import com.teamsparta.todoserver.domain.todo.dto.TodoResponse
 import jakarta.persistence.*
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "todo")
@@ -19,7 +19,7 @@ class Todo(
     var body: String?,
 
     @Column(name = "created_at", nullable = false)
-    var createdAt: LocalDate,
+    var createdAt: LocalDateTime,
 
     @Column(name="done", nullable = false)
     var done: Boolean=false,
