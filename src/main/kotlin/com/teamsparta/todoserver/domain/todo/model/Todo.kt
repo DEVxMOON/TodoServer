@@ -47,6 +47,7 @@ fun Todo.toResponse(): TodoResponse {
         author=author,
         date=createdAt,
         body = body!!,
+        done=done,
         comments = comments.map{it.toResponse()}
     )
 }

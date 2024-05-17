@@ -9,5 +9,6 @@ data class TodoResponse (
     val author:String,
     val date:LocalDateTime,
     val body:String,
+    val done:Boolean,
     val comments:List<CommentResponse>
 )
