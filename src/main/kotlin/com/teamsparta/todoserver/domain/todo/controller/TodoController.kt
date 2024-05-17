@@ -5,8 +5,10 @@ import com.teamsparta.todoserver.domain.todo.dto.TodoResponse
 import com.teamsparta.todoserver.domain.todo.dto.UpdateTodoRequest
 import com.teamsparta.todoserver.domain.todo.dto.UpdateTodoDoneRequest
 import com.teamsparta.todoserver.domain.todo.service.TodoService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 
 
@@ -37,11 +39,10 @@ class TodoController(private val todoService: TodoService) {
     }
 
     @PostMapping
-    fun createTodo(@RequestBody createTodoRequest: CreateTodoRequest): ResponseEntity<TodoResponse> {
-        try {
-            validateTodoLength(createTodoRequest.title, createTodoRequest.body)
-        } catch (e: IllegalArgumentException) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+    fun createTodo(@Valid @RequestBody createTodoRequest: CreateTodoRequest,
+                   bindingResult:BindingResult): ResponseEntity<TodoResponse> {
+        if(bindingResult.hasErrors()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(createTodoRequest))
     }
@@ -49,12 +50,11 @@ class TodoController(private val todoService: TodoService) {
     @PutMapping("/{todoId}")
     fun updateTodo(
         @PathVariable todoId: Long,
-        @RequestBody updateTodoRequest: UpdateTodoRequest
+        @Valid @RequestBody updateTodoRequest: UpdateTodoRequest,
+        bindingResult: BindingResult
     ): ResponseEntity<TodoResponse> {
 
-        try {
-            validateTodoLength(updateTodoRequest.title, updateTodoRequest.body)
-        } catch (e: IllegalArgumentException) {
+        if(bindingResult.hasErrors()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }
         return ResponseEntity .status(HttpStatus.OK).body(todoService.updateTodo(todoId, updateTodoRequest))
@@ -72,20 +72,4 @@ class TodoController(private val todoService: TodoService) {
     ): ResponseEntity<TodoResponse> {
         return ResponseEntity.status(HttpStatus.OK).body(todoService.updateTodoDone(todoId, updateTodoDoneRequest))
     }
-
-    private fun validateTodoLength(title: String, body: String) {
-        val minTitle = 1
-        val maxTitle = 200
-        val minBody = 1
-        val maxBody = 1000
-
-        if (title.length !in minTitle..maxTitle) {
-            throw IllegalArgumentException("The title must be between $minTitle and $maxTitle characters")
-        }
-
-        if (body.length !in minBody..maxBody) {
-            throw IllegalArgumentException("The body must be between $minBody and $maxBody characters")
-        }
-    }
-
 }
