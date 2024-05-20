@@ -19,10 +19,12 @@ class TodoController(private val todoService: TodoService) {
     @GetMapping
     fun getTodoList(
         @RequestParam(defaultValue = "desc") order: String,
-        @RequestParam(defaultValue = "") author: String
+        @RequestParam(defaultValue = "") author: String,
+        @RequestParam limit:Int,
+        @RequestParam offset:Int
     ): ResponseEntity<List<TodoResponse>> {
-        val todos = if (author.isNotBlank()) todoService.getAllTodos()
-            .filter { it.author == author } else todoService.getAllTodos()
+        val todos = if (author.isNotBlank()) todoService.getAllTodos(limit,offset)
+            .filter { it.author == author } else todoService.getAllTodos(limit,offset)
 
         val sortedTodos = when (order) {
             "asc" -> todos.sortedBy { it.date }

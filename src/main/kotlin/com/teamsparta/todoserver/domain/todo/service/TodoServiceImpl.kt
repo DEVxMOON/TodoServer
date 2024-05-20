@@ -8,14 +8,17 @@ import com.teamsparta.todoserver.domain.todo.dto.UpdateTodoRequest
 import com.teamsparta.todoserver.domain.todo.model.Todo
 import com.teamsparta.todoserver.domain.todo.model.toResponse
 import com.teamsparta.todoserver.domain.todo.repository.TodoRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TodoServiceImpl(private val todoRepository: TodoRepository) :TodoService{
-    override fun getAllTodos(): List<TodoResponse> {
-        return todoRepository.findAllWithComments().map { it.toResponse() }
+    override fun getAllTodos(limit:Int,offset:Int): Page<TodoResponse> {
+        val pageable = PageRequest.of(offset/limit,limit)
+        return todoRepository.findAllWithComments(pageable).map { it.toResponse() }
     }
 
     override fun getTodoById(todoId: Long): TodoResponse {
