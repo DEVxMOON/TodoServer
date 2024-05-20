@@ -55,7 +55,7 @@ class TodoServiceImpl(private val todoRepository: TodoRepository) :TodoService{
     }
 
     @Transactional
-    override fun updateTodoDone(todoId: Long, updateTodoDoneRequest: UpdateTodoDoneRequest) :TodoResponse{
+    override fun makeTodoDone(todoId: Long, updateTodoDoneRequest: UpdateTodoDoneRequest) :TodoResponse{
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
         val (done) =updateTodoDoneRequest
         todo.done = done

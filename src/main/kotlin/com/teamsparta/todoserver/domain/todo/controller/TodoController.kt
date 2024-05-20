@@ -66,10 +66,10 @@ class TodoController(private val todoService: TodoService) {
     }
 
     @PatchMapping("/{todoId}")
-    fun updateTodoDone(
+    fun makeTodoDone(
         @PathVariable todoId: Long,
         @RequestBody updateTodoDoneRequest: UpdateTodoDoneRequest
     ): ResponseEntity<TodoResponse> {
-        return ResponseEntity.status(HttpStatus.OK).body(todoService.updateTodoDone(todoId, updateTodoDoneRequest))
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.makeTodoDone(todoId, updateTodoDoneRequest))
     }
 }
