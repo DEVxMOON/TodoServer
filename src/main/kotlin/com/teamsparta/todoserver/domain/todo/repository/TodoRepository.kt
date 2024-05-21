@@ -1,6 +1,6 @@
 package com.teamsparta.todoserver.domain.todo.repository
 
-import com.teamsparta.todoserver.domain.todo.model.Todo
+import com.teamsparta.todoserver.domain.todo.entity.Todo
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.EntityGraph

@@ -5,8 +5,8 @@ import com.teamsparta.todoserver.domain.todo.dto.CreateTodoRequest
 import com.teamsparta.todoserver.domain.todo.dto.TodoResponse
 import com.teamsparta.todoserver.domain.todo.dto.UpdateTodoDoneRequest
 import com.teamsparta.todoserver.domain.todo.dto.UpdateTodoRequest
-import com.teamsparta.todoserver.domain.todo.model.Todo
-import com.teamsparta.todoserver.domain.todo.model.toResponse
+import com.teamsparta.todoserver.domain.todo.entity.Todo
+import com.teamsparta.todoserver.domain.todo.entity.toResponse
 import com.teamsparta.todoserver.domain.todo.repository.TodoRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest

@@ -1,7 +1,7 @@
-package com.teamsparta.todoserver.domain.todo.model
+package com.teamsparta.todoserver.domain.todo.entity
 
-import com.teamsparta.todoserver.domain.comment.model.Comment
-import com.teamsparta.todoserver.domain.comment.model.toResponse
+import com.teamsparta.todoserver.domain.comment.entity.Comment
+import com.teamsparta.todoserver.domain.comment.entity.toResponse
 import com.teamsparta.todoserver.domain.todo.dto.TodoResponse
 import jakarta.persistence.*
 import java.time.LocalDateTime
