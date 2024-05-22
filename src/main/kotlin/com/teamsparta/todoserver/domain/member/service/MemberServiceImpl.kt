@@ -5,7 +5,6 @@ import com.teamsparta.todoserver.domain.member.dto.MemberResponse
 import com.teamsparta.todoserver.domain.member.entity.Member
 import com.teamsparta.todoserver.domain.member.entity.toResponse
 import com.teamsparta.todoserver.domain.member.repository.MemberRepository
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
