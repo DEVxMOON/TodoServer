@@ -1,5 +1,6 @@
 package com.teamsparta.todoserver.domain.member.entity
 
+import com.teamsparta.todoserver.domain.member.dto.MemberResponse
 import jakarta.persistence.*
 
 @Entity
@@ -17,4 +18,12 @@ data class Member (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+}
+
+fun Member.toResponse(): MemberResponse {
+    return MemberResponse(
+        id=id!!,
+        loginId=loginId,
+        name=name,
+    )
 }
