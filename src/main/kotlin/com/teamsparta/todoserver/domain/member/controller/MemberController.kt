@@ -22,7 +22,9 @@ class MemberController(private val memberService: MemberServiceImpl) {
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody memberRequest: MemberRequest){
-        TODO()
+    fun login(@RequestBody memberRequest: MemberRequest):ResponseEntity<MemberResponse> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(memberService.login(memberRequest))
     }
 }

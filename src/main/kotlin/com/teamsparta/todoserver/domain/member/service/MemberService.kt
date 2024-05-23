@@ -6,4 +6,5 @@ import com.teamsparta.todoserver.domain.member.repository.MemberRepository
 
 interface MemberService{
     fun signUp(memberRequest: MemberRequest): MemberResponse
+    fun login(memberRequest: MemberRequest): MemberResponse
 }

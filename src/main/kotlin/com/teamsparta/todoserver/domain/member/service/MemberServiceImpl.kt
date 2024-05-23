@@ -26,4 +26,8 @@ class MemberServiceImpl(private val memberRepository : MemberRepository) : Membe
             )
         ).toResponse()
     }
+
+    override fun login(memberRequest: MemberRequest): MemberResponse {
+        TODO("Not yet implemented")
+    }
 }
