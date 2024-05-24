@@ -6,7 +6,7 @@ import com.teamsparta.todoserver.domain.todo.dto.UpdateCommentRequest
 import com.teamsparta.todoserver.domain.todo.entity.Comment
 import com.teamsparta.todoserver.domain.todo.entity.toResponse
 import com.teamsparta.todoserver.domain.todo.repository.CommentRepository
-import com.teamsparta.todoserver.domain.exception.ModelNotFoundException
+import com.teamsparta.todoserver.exception.ModelNotFoundException
 import com.teamsparta.todoserver.domain.todo.repository.TodoRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
