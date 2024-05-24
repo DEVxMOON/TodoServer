@@ -1,5 +1,6 @@
 package com.teamsparta.todoserver.domain.member.service
 
+import com.teamsparta.todoserver.domain.member.dto.LoginRequest
 import com.teamsparta.todoserver.domain.member.dto.MemberRequest
 import com.teamsparta.todoserver.domain.member.dto.MemberResponse
 import com.teamsparta.todoserver.domain.member.entity.Member
@@ -8,7 +9,9 @@ import com.teamsparta.todoserver.domain.member.repository.MemberRepository
 import org.springframework.stereotype.Service
 
 @Service
-class MemberServiceImpl(private val memberRepository : MemberRepository) : MemberService  {
+class MemberServiceImpl(
+    private val memberRepository: MemberRepository,
+) : MemberService  {
     override fun signUp(memberRequest: MemberRequest): MemberResponse {
 
         //TODO : 조건 조금 더 고민, 아이디가 핵심? 작성자 이름 기준으로 댓글, TODO를 작성한다고 하면. HOW?
@@ -27,7 +30,16 @@ class MemberServiceImpl(private val memberRepository : MemberRepository) : Membe
         ).toResponse()
     }
 
-    override fun login(memberRequest: MemberRequest): MemberResponse {
-        TODO("Not yet implemented")
+    override fun login(loginRequest: LoginRequest): String {
+        val loginId = loginRequest.loginId
+        val password = loginRequest.password
+
+        val user = memberRepository.findMemberByLoginId(loginId)
+
+        if (user != null) {
+            return if(user.password == password) "로그인 성공" else "로그인 실패"
+        }else{
+            throw IllegalArgumentException("해당 Id를 가진 사용자가 존재하지 않습니다.")
+        }
     }
 }

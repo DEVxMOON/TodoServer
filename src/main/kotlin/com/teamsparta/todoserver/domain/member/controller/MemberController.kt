@@ -1,5 +1,6 @@
 package com.teamsparta.todoserver.domain.member.controller
 
+import com.teamsparta.todoserver.domain.member.dto.LoginRequest
 import com.teamsparta.todoserver.domain.member.dto.MemberRequest
 import com.teamsparta.todoserver.domain.member.dto.MemberResponse
 import com.teamsparta.todoserver.domain.member.service.MemberServiceImpl
@@ -22,9 +23,9 @@ class MemberController(private val memberService: MemberServiceImpl) {
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody memberRequest: MemberRequest):ResponseEntity<MemberResponse> {
+    fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<String> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(memberService.login(memberRequest))
+            .body(memberService.login(loginRequest))
     }
 }
