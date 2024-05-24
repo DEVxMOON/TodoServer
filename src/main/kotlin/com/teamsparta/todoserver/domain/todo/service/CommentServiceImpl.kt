@@ -1,11 +1,11 @@
-package com.teamsparta.todoserver.domain.comment.service
+package com.teamsparta.todoserver.domain.todo.service
 
-import com.teamsparta.todoserver.domain.comment.dto.CommentResponse
-import com.teamsparta.todoserver.domain.comment.dto.CreateCommentRequest
-import com.teamsparta.todoserver.domain.comment.dto.UpdateCommentRequest
-import com.teamsparta.todoserver.domain.comment.entity.Comment
-import com.teamsparta.todoserver.domain.comment.entity.toResponse
-import com.teamsparta.todoserver.domain.comment.repository.CommentRepository
+import com.teamsparta.todoserver.domain.todo.dto.CommentResponse
+import com.teamsparta.todoserver.domain.todo.dto.CreateCommentRequest
+import com.teamsparta.todoserver.domain.todo.dto.UpdateCommentRequest
+import com.teamsparta.todoserver.domain.todo.entity.Comment
+import com.teamsparta.todoserver.domain.todo.entity.toResponse
+import com.teamsparta.todoserver.domain.todo.repository.CommentRepository
 import com.teamsparta.todoserver.domain.exception.ModelNotFoundException
 import com.teamsparta.todoserver.domain.todo.repository.TodoRepository
 import org.springframework.data.repository.findByIdOrNull

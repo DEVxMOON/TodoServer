@@ -1,6 +1,6 @@
-package com.teamsparta.todoserver.domain.comment.repository
+package com.teamsparta.todoserver.domain.todo.repository
 
-import com.teamsparta.todoserver.domain.comment.entity.Comment
+import com.teamsparta.todoserver.domain.todo.entity.Comment
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface CommentRepository  : JpaRepository<Comment, Long> {

@@ -1,4 +1,4 @@
-package com.teamsparta.todoserver.domain.comment.dto
+package com.teamsparta.todoserver.domain.todo.dto
 
 data class CreateCommentRequest (
     val name:String,

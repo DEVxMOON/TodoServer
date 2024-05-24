@@ -1,9 +1,9 @@
-package com.teamsparta.todoserver.domain.comment.controller
+package com.teamsparta.todoserver.domain.todo.controller
 
-import com.teamsparta.todoserver.domain.comment.dto.CommentResponse
-import com.teamsparta.todoserver.domain.comment.dto.CreateCommentRequest
-import com.teamsparta.todoserver.domain.comment.dto.UpdateCommentRequest
-import com.teamsparta.todoserver.domain.comment.service.CommentService
+import com.teamsparta.todoserver.domain.todo.dto.CommentResponse
+import com.teamsparta.todoserver.domain.todo.dto.CreateCommentRequest
+import com.teamsparta.todoserver.domain.todo.dto.UpdateCommentRequest
+import com.teamsparta.todoserver.domain.todo.service.CommentService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
