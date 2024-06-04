@@ -1,7 +1,7 @@
 package com.teamsparta.todoserver.member.controller
 
 import com.teamsparta.todoserver.member.dto.LoginRequest
-import com.teamsparta.todoserver.member.dto.MemberRequest
+import com.teamsparta.todoserver.member.dto.SignUpRequest
 import com.teamsparta.todoserver.member.dto.MemberResponse
 import com.teamsparta.todoserver.member.service.MemberServiceImpl
 import org.springframework.http.HttpStatus
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController
 class MemberController(private val memberService: MemberServiceImpl) {
 
     @PostMapping("/signup")
-    fun signUp(@RequestBody memberRequest: MemberRequest):ResponseEntity<MemberResponse> {
+    fun signUp(@RequestBody signUpRequest: SignUpRequest):ResponseEntity<MemberResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(memberService.signUp(memberRequest))
+            .body(memberService.signUp(signUpRequest))
     }
 
     @PostMapping("/login")
