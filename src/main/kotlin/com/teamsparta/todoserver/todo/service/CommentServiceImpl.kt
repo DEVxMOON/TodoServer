@@ -1,13 +1,14 @@
 package com.teamsparta.todoserver.todo.service
 
-import com.teamsparta.todoserver.domain.todo.dto.CommentResponse
-import com.teamsparta.todoserver.domain.todo.dto.CreateCommentRequest
-import com.teamsparta.todoserver.domain.todo.dto.UpdateCommentRequest
-import com.teamsparta.todoserver.domain.todo.entity.Comment
-import com.teamsparta.todoserver.domain.todo.entity.toResponse
-import com.teamsparta.todoserver.domain.todo.repository.CommentRepository
+
 import com.teamsparta.todoserver.exception.ModelNotFoundException
-import com.teamsparta.todoserver.domain.todo.repository.TodoRepository
+import com.teamsparta.todoserver.todo.dto.CommentResponse
+import com.teamsparta.todoserver.todo.dto.CreateCommentRequest
+import com.teamsparta.todoserver.todo.dto.UpdateCommentRequest
+import com.teamsparta.todoserver.todo.entity.Comment
+import com.teamsparta.todoserver.todo.entity.toResponse
+import com.teamsparta.todoserver.todo.repository.CommentRepository
+import com.teamsparta.todoserver.todo.repository.TodoRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 

@@ -1,9 +1,9 @@
 package com.teamsparta.todoserver.todo.service
 
-import com.teamsparta.todoserver.domain.todo.dto.CreateTodoRequest
-import com.teamsparta.todoserver.domain.todo.dto.TodoResponse
-import com.teamsparta.todoserver.domain.todo.dto.UpdateTodoDoneRequest
-import com.teamsparta.todoserver.domain.todo.dto.UpdateTodoRequest
+import com.teamsparta.todoserver.todo.dto.CreateTodoRequest
+import com.teamsparta.todoserver.todo.dto.TodoResponse
+import com.teamsparta.todoserver.todo.dto.UpdateTodoDoneRequest
+import com.teamsparta.todoserver.todo.dto.UpdateTodoRequest
 import org.springframework.data.domain.Page
 
 interface TodoService {

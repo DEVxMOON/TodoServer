@@ -1,6 +1,6 @@
 package com.teamsparta.todoserver.todo.entity
 
-import com.teamsparta.todoserver.domain.todo.dto.TodoResponse
+import com.teamsparta.todoserver.todo.dto.TodoResponse
 import jakarta.persistence.*
 import java.time.LocalDateTime
 

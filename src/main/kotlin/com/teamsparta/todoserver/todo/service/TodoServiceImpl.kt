@@ -1,13 +1,13 @@
 package com.teamsparta.todoserver.todo.service
 
 import com.teamsparta.todoserver.exception.ModelNotFoundException
-import com.teamsparta.todoserver.domain.todo.dto.CreateTodoRequest
-import com.teamsparta.todoserver.domain.todo.dto.TodoResponse
-import com.teamsparta.todoserver.domain.todo.dto.UpdateTodoDoneRequest
-import com.teamsparta.todoserver.domain.todo.dto.UpdateTodoRequest
-import com.teamsparta.todoserver.domain.todo.entity.Todo
-import com.teamsparta.todoserver.domain.todo.entity.toResponse
-import com.teamsparta.todoserver.domain.todo.repository.TodoRepository
+import com.teamsparta.todoserver.todo.dto.CreateTodoRequest
+import com.teamsparta.todoserver.todo.dto.TodoResponse
+import com.teamsparta.todoserver.todo.dto.UpdateTodoDoneRequest
+import com.teamsparta.todoserver.todo.dto.UpdateTodoRequest
+import com.teamsparta.todoserver.todo.entity.Todo
+import com.teamsparta.todoserver.todo.entity.toResponse
+import com.teamsparta.todoserver.todo.repository.TodoRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
