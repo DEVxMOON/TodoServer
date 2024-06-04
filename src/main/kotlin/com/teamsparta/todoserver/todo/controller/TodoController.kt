@@ -1,9 +1,9 @@
 package com.teamsparta.todoserver.todo.controller
 
-import com.teamsparta.todoserver.todo.dto.CreateTodoRequest
+import com.teamsparta.todoserver.member.dto.GetMemberInfoRequest
+import com.teamsparta.todoserver.todo.dto.TodoRequest
 import com.teamsparta.todoserver.todo.dto.TodoResponse
 import com.teamsparta.todoserver.todo.dto.UpdateTodoDoneRequest
-import com.teamsparta.todoserver.todo.dto.UpdateTodoRequest
 import com.teamsparta.todoserver.todo.service.TodoService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -20,11 +20,11 @@ class TodoController(private val todoService: TodoService) {
     fun getTodoList(
         @RequestParam(defaultValue = "desc") order: String,
         @RequestParam(defaultValue = "") author: String,
-        @RequestParam limit:Int,
-        @RequestParam offset:Int
+        @RequestParam limit: Int,
+        @RequestParam offset: Int
     ): ResponseEntity<List<TodoResponse>> {
-        val todos = if (author.isNotBlank()) todoService.getAllTodos(limit,offset)
-            .filter { it.author == author } else todoService.getAllTodos(limit,offset)
+        val todos = if (author.isNotBlank()) todoService.getAllTodos(limit, offset)
+            .filter { it.author == author } else todoService.getAllTodos(limit, offset)
 
         val sortedTodos = when (order) {
             "asc" -> todos.sortedBy { it.date }
@@ -41,37 +41,54 @@ class TodoController(private val todoService: TodoService) {
     }
 
     @PostMapping
-    fun createTodo(@Valid @RequestBody createTodoRequest: CreateTodoRequest,
-                   bindingResult:BindingResult): ResponseEntity<TodoResponse> {
-        if(bindingResult.hasErrors()){
+    fun createTodo(
+        @Valid @RequestBody todoRequest: TodoRequest,
+        bindingResult: BindingResult,
+        @RequestBody getMemberInfoRequest: GetMemberInfoRequest
+    ): ResponseEntity<TodoResponse> {
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(createTodoRequest))
+        return todoService.validateToken(getMemberInfoRequest.token).let{
+            ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(it.name,todoRequest))
+        }
     }
 
     @PutMapping("/{todoId}")
     fun updateTodo(
         @PathVariable todoId: Long,
-        @Valid @RequestBody updateTodoRequest: UpdateTodoRequest,
-        bindingResult: BindingResult
+        @Valid @RequestBody todoRequest: TodoRequest,
+        bindingResult: BindingResult,
+        @RequestBody getMemberInfoRequest: GetMemberInfoRequest
     ): ResponseEntity<TodoResponse> {
-
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }
-        return ResponseEntity .status(HttpStatus.OK).body(todoService.updateTodo(todoId, updateTodoRequest))
+        return todoService.checkOwner(getMemberInfoRequest.token,todoId).let{
+            ResponseEntity.status(HttpStatus.OK).body(todoService.updateTodo(todoId, todoRequest))
+        }
+
     }
 
     @DeleteMapping("/{todoId}")
-    fun deleteTodo(@PathVariable todoId: Long): ResponseEntity<Unit> {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT)  .body(todoService.deleteTodo(todoId))
+    fun deleteTodo(
+        @PathVariable todoId: Long,
+        @RequestBody getMemberInfoRequest: GetMemberInfoRequest
+
+    ): ResponseEntity<Unit> {
+        return todoService.checkOwner(getMemberInfoRequest.token,todoId).let{
+            ResponseEntity.status(HttpStatus.NO_CONTENT).body(todoService.deleteTodo(todoId))
+        }
     }
 
     @PatchMapping("/{todoId}")
     fun makeTodoDone(
         @PathVariable todoId: Long,
-        @RequestBody updateTodoDoneRequest: UpdateTodoDoneRequest
+        @RequestBody updateTodoDoneRequest: UpdateTodoDoneRequest,
+        @RequestBody getMemberInfoRequest: GetMemberInfoRequest
     ): ResponseEntity<TodoResponse> {
-        return ResponseEntity.status(HttpStatus.OK).body(todoService.makeTodoDone(todoId, updateTodoDoneRequest))
+        return todoService.checkOwner(getMemberInfoRequest.token,todoId).let{
+            ResponseEntity.status(HttpStatus.OK).body(todoService.makeTodoDone(todoId,updateTodoDoneRequest))
+        }
     }
 }

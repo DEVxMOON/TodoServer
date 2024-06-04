@@ -9,9 +9,6 @@ class Comment(
     @Column(name = "name", nullable = false)
     var name: String,
 
-    @Column(name = "password", nullable = false)
-    var password: String,
-
     @Column(name ="body")
     var body: String,
 

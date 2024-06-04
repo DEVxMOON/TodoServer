@@ -5,7 +5,7 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "todo")
+@Table(name = "todos")
 class Todo(
     @Column(name = "title", nullable = false)
     var title: String,
