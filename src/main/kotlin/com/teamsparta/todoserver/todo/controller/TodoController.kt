@@ -1,6 +1,6 @@
 package com.teamsparta.todoserver.todo.controller
 
-import com.teamsparta.todoserver.member.dto.GetMemberInfoRequest
+import com.teamsparta.todoserver.user.dto.GetUserInfoRequest
 import com.teamsparta.todoserver.todo.dto.TodoRequest
 import com.teamsparta.todoserver.todo.dto.TodoResponse
 import com.teamsparta.todoserver.todo.dto.UpdateTodoDoneRequest
@@ -44,12 +44,12 @@ class TodoController(private val todoService: TodoService) {
     fun createTodo(
         @Valid @RequestBody todoRequest: TodoRequest,
         bindingResult: BindingResult,
-        @RequestBody getMemberInfoRequest: GetMemberInfoRequest
+        @RequestBody getUserInfoRequest: GetUserInfoRequest
     ): ResponseEntity<TodoResponse> {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
         }
-        return todoService.validateToken(getMemberInfoRequest.token).let{
+        return todoService.validateToken(getUserInfoRequest.token).let{
             ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(it.name,todoRequest))
         }
     }
@@ -59,12 +59,12 @@ class TodoController(private val todoService: TodoService) {
         @PathVariable todoId: Long,
         @Valid @RequestBody todoRequest: TodoRequest,
         bindingResult: BindingResult,
-        @RequestBody getMemberInfoRequest: GetMemberInfoRequest
+        @RequestBody getUserInfoRequest: GetUserInfoRequest
     ): ResponseEntity<TodoResponse> {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }
-        return todoService.checkOwner(getMemberInfoRequest.token,todoId).let{
+        return todoService.checkOwner(getUserInfoRequest.token,todoId).let{
             ResponseEntity.status(HttpStatus.OK).body(todoService.updateTodo(todoId, todoRequest))
         }
 
@@ -73,10 +73,10 @@ class TodoController(private val todoService: TodoService) {
     @DeleteMapping("/{todoId}")
     fun deleteTodo(
         @PathVariable todoId: Long,
-        @RequestBody getMemberInfoRequest: GetMemberInfoRequest
+        @RequestBody getUserInfoRequest: GetUserInfoRequest
 
     ): ResponseEntity<Unit> {
-        return todoService.checkOwner(getMemberInfoRequest.token,todoId).let{
+        return todoService.checkOwner(getUserInfoRequest.token,todoId).let{
             ResponseEntity.status(HttpStatus.NO_CONTENT).body(todoService.deleteTodo(todoId))
         }
     }
@@ -85,9 +85,9 @@ class TodoController(private val todoService: TodoService) {
     fun makeTodoDone(
         @PathVariable todoId: Long,
         @RequestBody updateTodoDoneRequest: UpdateTodoDoneRequest,
-        @RequestBody getMemberInfoRequest: GetMemberInfoRequest
+        @RequestBody getUserInfoRequest: GetUserInfoRequest
     ): ResponseEntity<TodoResponse> {
-        return todoService.checkOwner(getMemberInfoRequest.token,todoId).let{
+        return todoService.checkOwner(getUserInfoRequest.token,todoId).let{
             ResponseEntity.status(HttpStatus.OK).body(todoService.makeTodoDone(todoId,updateTodoDoneRequest))
         }
     }

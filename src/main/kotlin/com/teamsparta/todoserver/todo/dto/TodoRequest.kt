@@ -1,6 +1,6 @@
 package com.teamsparta.todoserver.todo.dto
 
-import com.teamsparta.todoserver.member.dto.GetMemberInfoRequest
+import com.teamsparta.todoserver.user.dto.GetUserInfoRequest
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 import java.time.LocalDateTime
@@ -13,5 +13,5 @@ data class TodoRequest(
     @field:Size(min = 1, max = 1000, message = "Body must between 1 and 1000")
     val body: String,
     val date: LocalDateTime,
-    val member: GetMemberInfoRequest,
+    val member: GetUserInfoRequest,
 )

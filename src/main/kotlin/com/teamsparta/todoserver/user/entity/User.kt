@@ -1,11 +1,11 @@
-package com.teamsparta.todoserver.member.entity
+package com.teamsparta.todoserver.user.entity
 
-import com.teamsparta.todoserver.member.dto.MemberResponse
+import com.teamsparta.todoserver.user.dto.UserResponse
 import jakarta.persistence.*
 
 @Entity
 @Table(name = "member")
-data class Member (
+data class User (
     @Column(name="login_id",nullable = false)
     var loginId: String,
 
@@ -20,8 +20,8 @@ data class Member (
     var id: Long? = null
 }
 
-fun com.teamsparta.todoserver.member.entity.Member.toResponse(): com.teamsparta.todoserver.member.dto.MemberResponse {
-    return com.teamsparta.todoserver.member.dto.MemberResponse(
+fun User.toResponse(): UserResponse {
+    return UserResponse(
         id = id!!,
         loginId = loginId,
         name = name,

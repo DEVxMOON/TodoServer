@@ -1,9 +1,9 @@
 package com.teamsparta.todoserver.todo.service
 
 import com.teamsparta.todoserver.exception.ModelNotFoundException
-import com.teamsparta.todoserver.member.dto.GetMemberInfoRequest
-import com.teamsparta.todoserver.member.dto.MemberResponse
-import com.teamsparta.todoserver.member.service.MemberService
+import com.teamsparta.todoserver.user.dto.GetUserInfoRequest
+import com.teamsparta.todoserver.user.dto.UserResponse
+import com.teamsparta.todoserver.user.service.UserService
 import com.teamsparta.todoserver.todo.dto.TodoRequest
 import com.teamsparta.todoserver.todo.dto.TodoResponse
 import com.teamsparta.todoserver.todo.dto.UpdateTodoDoneRequest
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class TodoService(
     private val todoRepository: TodoRepository,
-    private val memberService: MemberService
+    private val userService: UserService
 ) {
     fun getAllTodos(limit: Int, offset: Int): Page<TodoResponse> {
         val pageable = PageRequest.of(offset / limit, limit)
@@ -73,8 +73,8 @@ class TodoService(
         return todoRepository.save(todo).toResponse()
     }
 
-    fun validateToken(token:String):MemberResponse{
-        return memberService.getUserInfo(GetMemberInfoRequest(token))
+    fun validateToken(token:String):UserResponse{
+        return userService.getUserInfo(GetUserInfoRequest(token))
     }
 
     fun checkOwner(token:String, feedId:Long):Boolean{

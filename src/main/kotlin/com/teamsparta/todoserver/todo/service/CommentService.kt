@@ -1,9 +1,9 @@
 package com.teamsparta.todoserver.todo.service
 
 import com.teamsparta.todoserver.exception.ModelNotFoundException
-import com.teamsparta.todoserver.member.dto.GetMemberInfoRequest
-import com.teamsparta.todoserver.member.dto.MemberResponse
-import com.teamsparta.todoserver.member.service.MemberService
+import com.teamsparta.todoserver.user.dto.GetUserInfoRequest
+import com.teamsparta.todoserver.user.dto.UserResponse
+import com.teamsparta.todoserver.user.service.UserService
 import com.teamsparta.todoserver.todo.dto.CommentResponse
 import com.teamsparta.todoserver.todo.dto.CommentRequest
 import com.teamsparta.todoserver.todo.entity.Comment
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service
 class CommentService(
     private val todoRepository: TodoRepository,
     private val commentRepository: CommentRepository,
-    private val memberService: MemberService
+    private val userService: UserService
 ) {
     fun createComment(
         todoId: Long,
@@ -57,8 +57,8 @@ class CommentService(
         commentRepository.delete(comment)
     }
 
-    fun validateToken(token:String):MemberResponse{
-        return memberService.getUserInfo(GetMemberInfoRequest(token))
+    fun validateToken(token:String):UserResponse{
+        return userService.getUserInfo(GetUserInfoRequest(token))
     }
 
     fun checkOwner(token:String, feedId:Long, commentId:Long):Boolean{

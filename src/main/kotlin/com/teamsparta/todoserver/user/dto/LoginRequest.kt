@@ -1,4 +1,4 @@
-package com.teamsparta.todoserver.member.dto
+package com.teamsparta.todoserver.user.dto
 
 data class LoginRequest (
     val loginId:String,
