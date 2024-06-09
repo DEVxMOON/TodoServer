@@ -22,12 +22,12 @@ class CommentService(
 ) {
     fun createComment(
         todoId: Long,
-        commentRequest: CommentRequest,
-        name:String,
+        userInfo:UserResponse,
+        commentRequest: CommentRequest
     ): CommentResponse {
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
         val comment = Comment(
-            name = name,
+            name = userInfo.name,
             body = commentRequest.body,
             todo = todo
         )
@@ -66,6 +66,4 @@ class CommentService(
             ?: throw EntityNotFoundException("Comment not found")
         return validateToken(token).name == comment.name
     }
-
-
 }

@@ -4,6 +4,7 @@ import com.teamsparta.todoserver.infra.security.jwt.JwtUtil
 import com.teamsparta.todoserver.user.dto.*
 import com.teamsparta.todoserver.user.entity.User
 import com.teamsparta.todoserver.user.entity.toResponse
+import com.teamsparta.todoserver.user.loginUser.service.LoginUserService
 import com.teamsparta.todoserver.user.repository.UserRepository
 import jakarta.persistence.EntityNotFoundException
 import jakarta.transaction.Transactional
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Service
 class UserService(
     private val userRepository: UserRepository,
     private val jwtUtil: JwtUtil,
+    private val loginUserService: LoginUserService,
 ){
+
     @Transactional
     fun signUp(signUpRequest: SignUpRequest): UserResponse {
         val member = signUpRequest.toEntity(signUpRequest.password)
@@ -26,6 +29,7 @@ class UserService(
             ?.let { user ->
                 jwtUtil.generateAccessToken("loginId", user.loginId)
             } ?: throw EntityNotFoundException("Member not found")
+        loginUserService.login(loginRequest.loginId, token)
         return token
     }
 
@@ -39,5 +43,12 @@ class UserService(
             userRepository.findUserByLoginId(it)
                 ?: throw EntityNotFoundException("User Not Found")
         }
+    }
+
+    @Transactional
+    fun logout(request:GetUserInfoRequest):Boolean{
+        val user = validateLoginIdFromToken(request.token)
+        loginUserService.logout(user.loginId)
+        return true
     }
 }

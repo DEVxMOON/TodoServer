@@ -7,10 +7,7 @@ import com.teamsparta.todoserver.user.dto.UserResponse
 import com.teamsparta.todoserver.user.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/member")
 @RestController
@@ -35,5 +32,10 @@ class UserController(private val userService: UserService) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(userService.getUserInfo(getUserInfoRequest))
+    }
+
+    @DeleteMapping("/logout")
+    fun logout(@RequestBody deleteRequest:GetUserInfoRequest):ResponseEntity<Any> {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(userService.logout(deleteRequest))
     }
 }

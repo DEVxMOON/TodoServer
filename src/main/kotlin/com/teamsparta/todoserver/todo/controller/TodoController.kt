@@ -42,15 +42,10 @@ class TodoController(private val todoService: TodoService) {
 
     @PostMapping
     fun createTodo(
-        @Valid @RequestBody todoRequest: TodoRequest,
-        bindingResult: BindingResult,
-        @RequestBody getUserInfoRequest: GetUserInfoRequest
+        @Valid @RequestBody todoRequest: TodoRequest
     ): ResponseEntity<TodoResponse> {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
-        }
-        return todoService.validateToken(getUserInfoRequest.token).let{
-            ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(it.name,todoRequest))
+        return todoService.validateToken(todoRequest.member.token).let{
+            ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(it,todoRequest))
         }
     }
 

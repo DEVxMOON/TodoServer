@@ -33,13 +33,13 @@ class TodoService(
     }
 
     @Transactional
-    fun createTodo(name:String, todoRequest: TodoRequest): TodoResponse {
+    fun createTodo(user: UserResponse, todoRequest: TodoRequest): TodoResponse {
         return todoRepository.save(
             Todo(
                 title = todoRequest.title,
                 body = todoRequest.body,
                 createdAt = todoRequest.date,
-                author = name
+                author = user.name
             )
         ).toResponse()
     }
@@ -73,10 +73,12 @@ class TodoService(
         return todoRepository.save(todo).toResponse()
     }
 
+    @Transactional
     fun validateToken(token:String):UserResponse{
         return userService.getUserInfo(GetUserInfoRequest(token))
     }
 
+    @Transactional
     fun checkOwner(token:String, feedId:Long):Boolean{
         val todo = todoRepository.findByIdOrNull(feedId)
             ?: throw EntityNotFoundException("feed not found")

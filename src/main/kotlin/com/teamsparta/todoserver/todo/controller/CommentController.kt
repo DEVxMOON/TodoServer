@@ -15,24 +15,22 @@ class CommentController(private val commentService: CommentService) {
     @PostMapping
     fun createComment(
         @PathVariable todoId:Long,
-        @RequestBody commentRequest: CommentRequest,
-        @RequestBody getUserInfoRequest: GetUserInfoRequest
+        @RequestBody commentRequest: CommentRequest
     ): ResponseEntity<CommentResponse> {
-        return commentService.validateToken(getUserInfoRequest.token).let{
+        return commentService.validateToken(commentRequest.member.token).let{
             ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(commentService.createComment(todoId, commentRequest,it.name))
+                .body(commentService.createComment(todoId, it, commentRequest))
         }
     }
 
-    @PutMapping("/{commentId}")
+    @PatchMapping("/{commentId}")
     fun updateComment(
         @PathVariable todoId:Long,
         @PathVariable commentId:Long,
         @RequestBody commentRequest: CommentRequest,
-        @RequestBody getUserInfoRequest: GetUserInfoRequest
     ): ResponseEntity<CommentResponse> {
-        return commentService.checkOwner(getUserInfoRequest.token,todoId,commentId).let{
+        return commentService.checkOwner(commentRequest.member.token,todoId,commentId).let{
             ResponseEntity
                 .status(HttpStatus.OK)
                 .body(commentService.updateComment(todoId, commentId, commentRequest))
