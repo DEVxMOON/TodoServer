@@ -22,7 +22,7 @@ class TodoService(
     private val todoRepository: TodoRepository,
     private val userService: UserService
 ) {
-    fun getAllTodos(limit: Int, offset: Int): Page<TodoResponse> {
+    fun getAllTodos(limit: Int=0, offset: Int=0): Page<TodoResponse> {
         val pageable = PageRequest.of(offset / limit, limit)
         return todoRepository.findAllWithComments(pageable).map { it.toResponse() }
     }
@@ -79,8 +79,8 @@ class TodoService(
     }
 
     @Transactional
-    fun checkOwner(token:String, feedId:Long):Boolean{
-        val todo = todoRepository.findByIdOrNull(feedId)
+    fun checkOwner(token:String, todoId:Long):Boolean{
+        val todo = todoRepository.findByIdOrNull(todoId)
             ?: throw EntityNotFoundException("feed not found")
         return validateToken(token).name == todo.author
     }
