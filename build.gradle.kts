@@ -42,6 +42,9 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.kotest:kotest-runner-junit5:4.4.2")
+    testImplementation("io.kotest:kotest-assertions-core:4.4.2")
+    testImplementation("io.mockk:mockk:1.9.3")
 
     runtimeOnly("org.postgresql:postgresql")
 

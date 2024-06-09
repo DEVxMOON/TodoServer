@@ -22,7 +22,7 @@ class TodoService(
     private val todoRepository: TodoRepository,
     private val userService: UserService
 ) {
-    fun getAllTodos(limit: Int=0, offset: Int=0): Page<TodoResponse> {
+    fun getAllTodos(limit: Int=10, offset: Int=0): Page<TodoResponse> {
         val pageable = PageRequest.of(offset / limit, limit)
         return todoRepository.findAllWithComments(pageable).map { it.toResponse() }
     }
