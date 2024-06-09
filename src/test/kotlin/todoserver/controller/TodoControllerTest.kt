@@ -21,6 +21,8 @@ class TodoControllerTest : StringSpec({
     val token = "123"
     val user = UserResponse(0, "HR", "hr")
 
+    //getTodoList 테스트 X, 성공사례만 작성
+
     "getTodoById should return the correct response" {
         val todoId = 1L
         val todo = TodoResponse(todoId, "Title", user.name, LocalDateTime.now(), "Body", true, comments = listOf())
