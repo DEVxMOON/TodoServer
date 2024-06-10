@@ -2,7 +2,7 @@
 
 Todo App을 위한 백엔드 서버 개발
 
-Notion : https://river-degree-217.notion.site/TodoApp-Backend-Server-91529934cfb446d3b57d62ce4a07b6a9
+Notion : https://hr-devlog.notion.site/TodoApp-Backend-Server-91529934cfb446d3b57d62ce4a07b6a9?pvs=74
 
 ## 기능 설명
 
